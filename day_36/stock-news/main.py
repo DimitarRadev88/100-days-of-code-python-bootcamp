@@ -66,11 +66,11 @@ def send_notification(message):
 
 difference = get_stock_percent_difference()
 
-if abs(difference) > 5:
+if abs(difference) > 1:
     company_news = get_news()
     for (title, description) in company_news.items():
         sign = "🔻" if difference < 0 else "🔺"
-        notification_message = f"{STOCK_NAME}: {sign}{abs(difference)}%\n{title}\n{description}"
+        notification_message = f"{STOCK_NAME}: {sign}{abs(round(difference))}%\n{title}\n{description}"
         notification_message = notification_message[:147] + "..." if len(
             notification_message) > 150 else notification_message
 

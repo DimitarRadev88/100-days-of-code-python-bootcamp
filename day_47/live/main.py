@@ -22,7 +22,7 @@ driver.get(ITEM_URL)
 
 def get_price():
     element = driver.find_element(By.CSS_SELECTOR, "#corePrice_feature_div .a-offscreen")
-    return float(element.get_property("textContent").split(" ")[0][1::])
+    return float(element.text.split(" ")[0][1::])
 
 
 def send_notification(msg):
@@ -47,5 +47,6 @@ title = "".join([text.strip() for text in get_product_title().splitlines()])
 
 if current_price < TARGET_PRICE:
     product_title = get_product_title()
+    driver.quit()
     message = f"Subject:Amazon Price Alert!\n\n{title} is now ${current_price}\n{ITEM_URL}".encode("UTF-8")
     send_notification(message)

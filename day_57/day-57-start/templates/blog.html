@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<main>
+    <ul>
+        {% for post in posts %}
+        {% if post["id"] == 2 %}
+        <li>
+            <h1>{{ post["title"] }}</h1>
+            <h2>{{ post["subtitle"] }}</h2>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</main>
+</body>
+</html>

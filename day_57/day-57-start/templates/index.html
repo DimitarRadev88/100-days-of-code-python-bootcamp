@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<main>
+    <h1>{{ page_heading }}</h1>
+    <h2>{{ 5 * 5 }}</h2>
+    <h3>Random number: {{ random_number }}</h3>
+    <a href="{{ url_for('get_blog') }}">To blog</a>
+</main>
+
+<footer>
+    <p>Copyright {{ copyright_year }}</p>
+</footer>
+</body>
+</html>

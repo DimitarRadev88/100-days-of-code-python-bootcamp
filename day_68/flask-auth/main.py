@@ -1,32 +1,16 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String
-from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+from flask_login import login_user, LoginManager, login_required, logout_user
+from db_model import database, User, SQLALCHEMY_DATABASE_URI
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret-key-goes-here'
+app.config["SECRET_KEY"] = "secret-key-goes-here"
 
-
-class Base(DeclarativeBase):
-    pass
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-db = SQLAlchemy(model_class=Base)
-db.init_app(app)
-
-
-class User(UserMixin, db.Model):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True)
-    password: Mapped[str] = mapped_column(String(100))
-    name: Mapped[str] = mapped_column(String(1000))
-
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+database.init_app(app)
 
 with app.app_context():
-    db.create_all()
+    database.create_all()
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -35,7 +19,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def user_loader(user_id):
-    return db.session.get(User, int(user_id))
+    return database.session.get(User, int(user_id))
 
 
 @app.route('/')
@@ -50,14 +34,14 @@ def register():
         email = request.form.get("email")
         password = generate_password_hash(request.form.get("password"), salt_length=8, method="pbkdf2")
 
-        if db.session.query(User.id).filter_by(email=email) is not None:
+        if database.session.query(User.id).filter_by(email=email) is not None:
             flash("You've already signed up with that email, log in instead")
             return redirect(url_for("register"))
 
         user = User(name=name, email=email, password=password)
 
-        db.session.add(user)
-        db.session.commit()
+        database.session.add(user)
+        database.session.commit()
 
         login_user(user)
 
@@ -72,7 +56,7 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        user = database.session.execute(database.select(User).where(User.email == email)).scalar()
         if user:
             if check_password_hash(user.password, password):
                 login_user(user)

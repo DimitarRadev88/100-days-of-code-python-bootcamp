@@ -10,9 +10,9 @@ print(data_frame.shape)
 
 print(data_frame.columns)
 
-data_frame.isna()
+print(data_frame.isna())
 
-data_frame.tail()
+print(data_frame.tail())
 
 clean_data_frame = data_frame.dropna()
 
@@ -30,7 +30,7 @@ print(clean_data_frame.loc[clean_data_frame["Mid-Career Median Salary"].idxmin()
 spread_col = clean_data_frame["Mid-Career 90th Percentile Salary"].subtract(clean_data_frame["Mid-Career 10th Percentile Salary"])
 clean_data_frame.insert(1, "Spread", spread_col)
 low_risk = clean_data_frame.sort_values("Spread")
-low_risk[["Undergraduate Major", "Spread"]].head()
+print(low_risk[["Undergraduate Major", "Spread"]].head())
 
 highest_potential = clean_data_frame[["Undergraduate Major", "Mid-Career 90th Percentile Salary"]].sort_values("Mid-Career 90th Percentile Salary", ascending=False).head()
 print(highest_potential)
@@ -38,6 +38,6 @@ print(highest_potential)
 highest_risk = clean_data_frame[["Undergraduate Major", "Spread"]].sort_values("Spread", ascending=False).head()
 print(highest_risk)
 
-clean_data_frame.groupby("Group").count()
+print(clean_data_frame.groupby("Group").count())
 
-clean_data_frame.drop("Undergraduate Major", axis=1).groupby("Group").mean()
+print(clean_data_frame.drop("Undergraduate Major", axis=1).groupby("Group").mean())

@@ -63,6 +63,7 @@ pandas==2.3.3
 pandas-stubs==2.3.3.251219
 parse==1.20.2
 parso==0.8.5
+patsy==1.0.2
 pexpect==4.9.0
 pillow==12.0.0
 platformdirs==4.5.1
@@ -101,6 +102,7 @@ soupsieve==2.8.1
 spotipy==2.25.2
 SQLAlchemy==2.0.45
 stack-data==0.6.3
+statsmodels==0.14.6
 threadpoolctl==3.6.0
 tornado==6.5.4
 tqdm==4.67.1
